@@ -1,0 +1,27 @@
+body {
+    margin:40px auto;
+    max-width:650px;
+    line-height:1.6; 
+    /* font-size:20px; */
+    color:#444444;
+    padding:0 10px;
+    text-align:center;
+    background-color:#fdf6e3;
+}
+
+a:link, a:visited, a:active {
+    color:#444;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration:underline;
+}
+
+.main-links {
+    font-size:26px;
+} 
+
+.other-links {
+    font-size:8px;
+}
