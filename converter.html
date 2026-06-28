@@ -5,16 +5,237 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Energy Unit Converter</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+    }
+
+    .back-link {
+      color: #667eea;
+      font-size: 0.95rem;
+    }
+
+    .page {
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .page h1 {
+      font-size: 1.5em;
+      margin-bottom: 0.2em;
+    }
+
+    .page > p {
+      color: #666;
+      margin-bottom: 0.3em;
+    }
+
+    .precision-note {
+      font-size: 0.85em;
+      color: #999;
+      margin-bottom: 1.5em;
+    }
+
+    .input-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input-row input {
+      flex: 0 0 180px;
+      padding: 9px 12px;
+      font-size: 1em;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      outline: none;
+      background: #fafafa;
+      color: #222;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .input-row input:focus {
+      border-color: #1a5276;
+      box-shadow: 0 0 0 3px rgba(26, 82, 118, 0.1);
+      background: #fff;
+    }
+
+    .input-row .label {
+      font-size: 0.95em;
+      color: #555;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 1.8em 0;
+    }
+
+    .boltzmann-section h2 {
+      font-size: 1.3em;
+      margin-bottom: 0.5em;
+    }
+
+    .boltzmann-section > p {
+      color: #666;
+      margin-bottom: 1em;
+    }
+
+    .param-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 1em;
+    }
+
+    .param-row label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95em;
+      color: #444;
+    }
+
+    .param-row input {
+      width: 90px;
+      padding: 5px 8px;
+      font-size: 0.95em;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      border: 1.5px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+      background: #fafafa;
+      color: #222;
+      transition: border-color 0.15s;
+    }
+
+    .param-row input:focus {
+      border-color: #1a5276;
+      background: #fff;
+    }
+
+    .pop-display {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 1em;
+    }
+
+    .pop-level {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pop-label {
+      font-size: 0.85em;
+      color: #888;
+      width: 48px;
+      text-align: right;
+    }
+
+    .pop-bar-container {
+      flex: 1;
+      height: 22px;
+      background: #e8e8e8;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      max-width: 280px;
+    }
+
+    .pop-bar-up {
+      height: 100%;
+      background: #1a5276;
+      transition: width 0.15s;
+    }
+
+    .pop-bar-low {
+      height: 100%;
+      background: #7fafd4;
+      transition: width 0.15s;
+    }
+
+    .pop-pct {
+      font-size: 0.9em;
+      color: #444;
+      min-width: 56px;
+      text-align: right;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    }
+
+    .pop-degen {
+      font-size: 0.85em;
+      color: #999;
+      margin-left: 60px;
+    }
+
+    .pop-degen input {
+      width: 40px;
+      padding: 3px 6px;
+      font-size: 0.9em;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      border: 1.5px solid #ddd;
+      border-radius: 4px;
+      outline: none;
+      background: #fafafa;
+      color: #222;
+    }
+
+    .pop-degen input:focus {
+      border-color: #1a5276;
+      background: #fff;
+    }
+
+    .voltage-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95em;
+      color: #444;
+    }
+
+    .voltage-row input {
+      width: 100px;
+      padding: 5px 8px;
+      font-size: 0.95em;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      border: 1.5px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+      background: #fafafa;
+      color: #222;
+    }
+
+    .voltage-row input:focus {
+      border-color: #1a5276;
+      background: #fff;
+    }
+
+    @media (max-width: 500px) {
+      .input-row input {
+        flex: 1;
+      }
+    }
+  </style>
   <script>
       function constants(conv) {
             var numE = 7;
-                  conv[0] = 1.000 ; // eV
-                  conv[1] = 2.7211399E+01 ; // kJ/mol
-                  conv[2] = 2.6255002E+03 ; // kcal/mol
-                  conv[3] = conv[2]/4.184 ; // cm-1
-                  conv[4] = 2.1947463E+05 ; // V
-                  conv[5] = 2.6255002E+06/96484.6 ; // K
-                  conv[6] =3.1577709E+05 ; // Boltzman
+                  conv[0] = 1.0 ;                // Hartree
+                  conv[1] = 27.211386245988 ;    // eV (CODATA 2018)
+                  conv[2] = 2625.4996394798 ;    // kJ/mol (CODATA 2018)
+                  conv[3] = conv[2]/4.184 ;      // kcal/mol
+                  conv[4] = 219474.63136320 ;    // cm-1 (CODATA 2018)
+                  conv[5] = conv[2]*1000/96485.33212331001 ; // V (CODATA 2018)
+                  conv[6] = 315775.024804 ;      // K (CODATA 2018)
                   conv[7] = -conv[6] ;
             return numE;
          }
@@ -28,7 +249,7 @@
             }
          }
          // find number of characters in input string for significant figure functions
-            nchars = form.elements[idx].value.length +1 ;
+            nchars = form.elements[idx].value.length + 1;
 
          // calculate the base energy in Hartrees
          if ( idx != 7) {
@@ -57,19 +278,19 @@
                var gi = document.Boltzman.gi.value ;
                var z= document.Boltzman.z.value ; 
                var r = Math.exp(energy*conv[7]/T)*gj/gi ;
-               document.Boltzman.flow.value = trunc(1/(r+1)*100.0,3) ;
-                  var fup = trunc(r/(r+1)*100.0,3) ;
-            if ( fup > 1e-20 ) {
-                     document.Boltzman.fup.value = fup 
-                                       } else {
-                     document.Boltzman.fup.value = 0 }
-         // Put in diagram poulations
-                  var all = "-oooooooooo" ;
-                  var molecules = Math.floor(r/(r+1)*10.0+0.5) ;
-                     document.Boltzman.up.value = all.substring(0,molecules+1) + "-" ;
-                     document.Boltzman.low.value = all.substring(0,11-molecules) + "-" ;
+                  var lowerPct = trunc(1/(r+1)*100.0,3) ;
+                  var upperPct = trunc(r/(r+1)*100.0,3) ;
+            if ( upperPct > 1e-20 ) {
+                  var fup = upperPct;
+               } else {
+                  var fup = 0; }
+         // Update population bar
+                  document.getElementById("pop-bar-up").style.width = fup + "%";
+                  document.getElementById("pop-bar-low").style.width = (100 - fup) + "%";
+                  document.getElementById("pop-pct-up").textContent = fup + "%";
+                  document.getElementById("pop-pct-low").textContent = lowerPct + "%";
          // Voltage for z != 1
-               document.Boltzman.V.value = trunc(energy*conv[5]/z,nchars) ;
+               document.getElementById("boltz-V").value = trunc(energy*conv[5]/z,nchars) ;
          }
 
          // Significant figure functions
@@ -86,48 +307,91 @@
          var nchars = 0;
          var conv = new Array();
          var nfields = constants(conv);
-
-         // STOP HIDING FROM OTHER BROWSERS -->
    </script>
 </head>
 <body>
   <a href="/" class="back-link">&larr; Home</a>
-   <div class="solutions">
-      <H1>Energy Units Converter</H1>
-      Enter your energy value in the box with the appropriate units, then press "tab"
-      or click outside of the input box.
-      <P>
-      <FORM NAME="Hartree" METHOD=POST>
-         <INPUT TYPE="text" NAME="H" VALUE=0 onChange="displayInfo(this.form,this.name);">Hartrees<BR>
-         <INPUT TYPE="text" NAME="eV" VALUE=0 onChange="displayInfo(this.form,this.name);">eV<BR>
-         <INPUT TYPE="text" NAME="kJ/mol" VALUE=0 onChange="displayInfo(this.form,this.name);">kJ/mol<BR>
-         <INPUT TYPE="text" NAME="kcal/mol" VALUE=0 onChange="displayInfo(this.form,this.name);">kcal/mol<BR>
-         <INPUT TYPE="text" NAME="cm-1" VALUE=0 onChange="displayInfo(this.form,this.name);">cm<sup>-1</sup><BR>
-         <INPUT TYPE="text" NAME="V" VALUE=0 onChange="displayInfo(this.form,this.name);">V for 1e<sup>-</sup> transfer<BR>
-         <INPUT TYPE="text" NAME="K" VALUE=0 onChange="displayInfo(this.form,this.name);">K (equivalent temerature)<BR>
-         <INPUT TYPE="text" NAME="B" VALUE=1 onChange="displayInfo(this.form,this.name);">Boltzman population ratio at 298.15K
-      </FORM>
-      <HR>
-      <H1>Boltzman Populations</H1>
-      Change the temperature and degeneracies:
-      <FORM NAME="Boltzman" METHOD=POST>
-      <TABLE>
-      <TR><TD><INPUT TYPE="text" NAME="T" SIZE=6 VALUE=298.15 onChange="boltzman();">K</TD>
-      <TR><TD>
-      upper degeneracy=<INPUT TYPE="text" NAME="gj" SIZE="2" VALUE=1 onChange="boltzman();"></TD>
-      <TD><INPUT TYPE="text" NAME="fup" SIZE=7 VALUE=50.0 onFocus="blur();">%</TD>
-      <TD><INPUT TYPE="text" NAME="up" SIZE=12 VALUE="-ooooo-" onFocus="blur();"></TD></TR>
-      <TR><TD>
-      lower degeneracy=<INPUT TYPE="text" NAME="gi" SIZE="2" VALUE=1 onChange="boltzman();"></TD>
-      <TD><INPUT TYPE="text" NAME="flow" SIZE=7 VALUE=50.0 onFocus="blur();">%</TD>
-      <TD><INPUT TYPE="text" NAME="low" SIZE=12 VALUE="-ooooo-" onFocus="blur();"></TD></TR>
-      </TABLE>
-      <H1>Electrochemical Voltage</H1>
-      Change the number of electrons transferred, z=<INPUT TYPE="text" NAME="z" SIZE=2 VALUE=1 onChange="boltzman();"><BR>
-      Then, V=
-      <INPUT TYPE="text" NAME="V" VALUE=0 onFocus="blur();">V<BR>
 
-   </FORM>
+  <div class="page">
+
+    <h1>Energy Unit Converter</h1>
+    <p>Enter a value &mdash; all other fields update as you type.</p>
+    <p class="precision-note">Precision matches the number of digits you enter. Type <b>1.0000</b> for 5-digit accuracy.</p>
+
+    <div class="input-grid">
+      <form name="Hartree">
+        <div class="input-row">
+          <input type="text" name="H" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <span class="label">Hartrees</span>
+        </div>
+        <div class="input-row">
+          <input type="text" name="eV" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <span class="label">eV</span>
+        </div>
+        <div class="input-row">
+          <input type="text" name="kJ/mol" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <span class="label">kJ/mol</span>
+        </div>
+        <div class="input-row">
+          <input type="text" name="kcal/mol" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <span class="label">kcal/mol</span>
+        </div>
+        <div class="input-row">
+          <input type="text" name="cm-1" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <span class="label">cm<sup>-1</sup></span>
+        </div>
+        <div class="input-row">
+          <input type="text" name="V" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <span class="label">V (1 e<sup>-</sup> transfer)</span>
+        </div>
+        <div class="input-row">
+          <input type="text" name="K" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <span class="label">K (equivalent temperature)</span>
+        </div>
+        <div class="input-row">
+          <input type="text" name="B" value="1" oninput="displayInfo(this.form,this.name);" placeholder="1">
+          <span class="label">Boltzmann ratio at 298.15 K</span>
+        </div>
+      </form>
     </div>
+
+    <hr class="section-divider">
+
+    <div class="boltzmann-section">
+      <h2>Boltzmann Populations</h2>
+      <p>Adjust temperature and degeneracies to see the population distribution.</p>
+
+      <form name="Boltzman">
+        <div class="param-row">
+          <label>T = <input type="text" name="T" value="298.15" oninput="boltzman();"> K</label>
+          <label>z = <input type="text" name="z" value="1" oninput="boltzman();"> e<sup>-</sup></label>
+        </div>
+
+        <div class="pop-display">
+          <div class="pop-level">
+            <span class="pop-label">Upper</span>
+            <div class="pop-bar-container">
+              <div class="pop-bar-up" id="pop-bar-up" style="width:50%"></div>
+              <div class="pop-bar-low" id="pop-bar-low" style="width:50%"></div>
+            </div>
+            <span class="pop-pct" id="pop-pct-up">50.0%</span>
+          </div>
+          <div class="pop-level">
+            <span class="pop-label">Lower</span>
+            <span class="pop-pct" id="pop-pct-low" style="text-align:left;">50.0%</span>
+            <span style="min-width:56px;"></span>
+          </div>
+          <div class="pop-degen">g<sub>j</sub> = <input type="text" name="gj" value="1" oninput="boltzman();">&nbsp;&nbsp;g<sub>i</sub> = <input type="text" name="gi" value="1" oninput="boltzman();"></div>
+        </div>
+
+        <div class="voltage-row">
+          <span>Electrochemical voltage:</span>
+          <input type="text" id="boltz-V" value="0" readonly>
+          <span>V</span>
+        </div>
+      </form>
+    </div>
+
+  </div>
 </body>
 </html>
