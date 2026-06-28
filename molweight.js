@@ -1,0 +1,206 @@
+let molecular_mass = 0;
+let elements_data_array = [];
+
+const element_mass_map = {
+    "H": 1.0079,
+    "He": 4.0026,
+    "Li": 6.941,
+    "Be": 9.0122,
+    "B": 10.811,
+    "C": 12.0107,
+    "N": 14.0067,
+    "O": 15.9994,
+    "F": 18.9984,
+    "Ne": 20.1797,
+    "Na": 22.9897,
+    "Mg": 24.305,
+    "Al": 26.9815,
+    "Si": 28.0855,
+    "P": 30.9738,
+    "S": 32.065,
+    "Cl": 35.453,
+    "Ar": 39.948,
+    "K": 39.0983,
+    "Ca": 40.078,
+    "Sc": 44.9559,
+    "Ti": 47.867,
+    "V": 50.9415,
+    "Cr": 51.9961,
+    "Mn": 54.938,
+    "Fe": 55.845,
+    "Co": 58.9332,
+    "Ni": 58.6934,
+    "Cu": 63.546,
+    "Zn": 65.39,
+    "Ga": 69.723,
+    "Ge": 72.64,
+    "As": 74.9216,
+    "Se": 78.96,
+    "Br": 79.904,
+    "Kr": 83.8,
+    "Rb": 85.4678,
+    "Sr": 87.62,
+    "Y": 88.9059,
+    "Zr": 91.224,
+    "Nb": 92.9064,
+    "Mo": 95.94,
+    "Tc": 98,
+    "Ru": 101.07,
+    "Rh": 102.9055,
+    "Pd": 106.42,
+    "Ag": 107.8682,
+    "Cd": 112.411,
+    "In": 114.818,
+    "Sn": 118.71,
+    "Sb": 121.76,
+    "Te": 127.6,
+    "I": 126.9045,
+    "Xe": 131.293,
+    "Cs": 132.9055,
+    "Ba": 137.327,
+    "La": 138.9055,
+    "Ce": 140.116,
+    "Pr": 140.9077,
+    "Nd": 144.24,
+    "Pm": 145,
+    "Sm": 150.36,
+    "Eu": 151.964,
+    "Gd": 157.25,
+    "Tb": 158.9253,
+    "Dy": 162.5,
+    "Ho": 164.9303,
+    "Er": 167.259,
+    "Tm": 168.9342,
+    "Yb": 173.04,
+    "Lu": 174.967,
+    "Hf": 178.49,
+    "Ta": 180.9479,
+    "W": 183.84,
+    "Re": 186.207,
+    "Os": 190.23,
+    "Ir": 192.217,
+    "Pt": 195.078,
+    "Au": 196.9665,
+    "Hg": 200.59,
+    "Tl": 204.3833,
+    "Pb": 207.2,
+    "Bi": 208.9804,
+    "Po": 209,
+    "At": 210,
+    "Rn": 222,
+    "Fr": 223,
+    "Ra": 226,
+    "Ac": 227,
+    "Th": 232.0381,
+    "Pa": 231.0359,
+    "U": 238.0289,
+    "Np": 237,
+    "Pu": 244,
+    "Am": 243,
+    "Cm": 247,
+    "Bk": 247,
+    "Cf": 251,
+    "Es": 252,
+    "Fm": 257,
+    "Md": 258,
+    "No": 259,
+    "Lr": 262,
+    "Rf": 261,
+    "Db": 262,
+    "Sg": 266,
+    "Bh": 264,
+    "Hs": 277,
+    "Mt": 268
+}
+
+let molecular_formula;
+
+function details_html(element_data_array) {
+    let rows = "";
+    for (entry of element_data_array) {
+        let element_symbol = entry[0]
+        let element_count = entry[1]
+        let atomic_mass = element_mass_map[entry[0]]
+        let element_mass = element_count * atomic_mass
+        rows += `<tr>
+            <td class="detail-element">${element_symbol}</td>
+            <td class="detail-atomic-mass">${atomic_mass.toFixed(4)}</td>
+            <td class="detail-count">× ${element_count}</td>
+            <td class="detail-mass">${element_mass.toFixed(4)}</td>
+        </tr>`;
+    }
+    return `<table class="detail-grid">${rows}</table>
+        <div class="detail-source">Atomic masses from IUPAC</div>`
+};
+
+function parse_formula(formula) {
+    let stack = [{}];
+    let i = 0;
+
+    while (i < formula.length) {
+        let ch = formula[i];
+        if (ch === '(') {
+            stack.push({});
+            i++;
+        } else if (ch === ')') {
+            i++;
+            let numStr = '';
+            while (i < formula.length && /[0-9]/.test(formula[i])) {
+                numStr += formula[i];
+                i++;
+            }
+            let multiplier = numStr ? parseInt(numStr) : 1;
+            let group = stack.pop();
+            let top = stack[stack.length - 1];
+            for (let sym in group) {
+                top[sym] = (top[sym] || 0) + group[sym] * multiplier;
+            }
+        } else if (/[A-Z]/.test(ch)) {
+            let sym = ch;
+            i++;
+            while (i < formula.length && /[a-z]/.test(formula[i])) {
+                sym += formula[i];
+                i++;
+            }
+            let numStr = '';
+            while (i < formula.length && /[0-9]/.test(formula[i])) {
+                numStr += formula[i];
+                i++;
+            }
+            let count = numStr ? parseInt(numStr) : 1;
+            let top = stack[stack.length - 1];
+            top[sym] = (top[sym] || 0) + count;
+        } else {
+            i++;
+        }
+    }
+
+    let counts = stack[0];
+    let mass = 0;
+    elements_data_array = [];
+    for (let sym in counts) {
+        let count = counts[sym];
+        elements_data_array.push([sym, count]);
+        mass += element_mass_map[sym] * count;
+    }
+
+    molecular_mass = mass;
+    return mass;
+}
+
+window.onkeyup = keyup;
+
+function keyup(e) {
+    molecular_mass = 0;
+    details = "";
+    elements_data_array = [];
+
+    molecular_formula = e.target.value;
+
+    molecular_mass = parse_formula(molecular_formula);
+
+    details_txt = details_html(elements_data_array);
+
+    document.getElementById('output-text').innerHTML = molecular_mass.toFixed(4);
+    document.getElementById('details-text').innerHTML = details_txt;
+};
