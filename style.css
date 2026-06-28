@@ -19,6 +19,14 @@ header {
   margin-bottom: 2.5em;
 }
 
+.avatar {
+  display: block;
+  margin: 0 auto 1.2em;
+  border-radius: 50%;
+  background: #f0f4f8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
 h1 {
   font-size: 2em;
   font-weight: 600;
