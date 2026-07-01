@@ -132,6 +132,13 @@
 
     .pop-level {
       display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .pop-level-row {
+      display: flex;
       align-items: center;
       gap: 12px;
     }
@@ -139,18 +146,16 @@
     .pop-label {
       font-size: 0.85em;
       color: #888;
-      width: 48px;
-      text-align: right;
+      min-width: 48px;
     }
 
     .pop-bar-container {
-      flex: 1;
-      height: 22px;
+      height: 24px;
       background: #e8e8e8;
       border-radius: 4px;
       overflow: hidden;
       display: flex;
-      max-width: 280px;
+      width: 100%;
     }
 
     .pop-bar-up {
@@ -168,7 +173,7 @@
     .pop-pct {
       font-size: 0.9em;
       color: #444;
-      min-width: 56px;
+      margin-left: auto;
       text-align: right;
       font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
     }
@@ -370,17 +375,20 @@
 
         <div class="pop-display">
           <div class="pop-level">
-            <span class="pop-label">Upper</span>
             <div class="pop-bar-container">
               <div class="pop-bar-up" id="pop-bar-up" style="width:50%"></div>
               <div class="pop-bar-low" id="pop-bar-low" style="width:50%"></div>
             </div>
-            <span class="pop-pct" id="pop-pct-up">50.0%</span>
+            <div class="pop-level-row">
+              <span class="pop-label">Upper</span>
+              <span class="pop-pct" id="pop-pct-up">50.0%</span>
+            </div>
           </div>
           <div class="pop-level">
-            <span class="pop-label">Lower</span>
-            <span class="pop-pct" id="pop-pct-low" style="text-align:left;">50.0%</span>
-            <span style="min-width:56px;"></span>
+            <div class="pop-level-row">
+              <span class="pop-label">Lower</span>
+              <span class="pop-pct" id="pop-pct-low" style="text-align:left;">50.0%</span>
+            </div>
           </div>
           <div class="pop-degen">g<sub>j</sub> = <input type="text" name="gj" value="1" oninput="boltzman();">&nbsp;&nbsp;g<sub>i</sub> = <input type="text" name="gi" value="1" oninput="boltzman();"></div>
         </div>

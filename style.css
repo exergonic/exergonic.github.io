@@ -24,7 +24,7 @@ header {
   margin: 0 auto 1.2em;
   border-radius: 50%;
   background: #f0f4f8;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 h1 {
@@ -47,6 +47,46 @@ h1 {
 
 .bio p {
   margin-bottom: 1em;
+}
+
+.tools {
+  margin-bottom: 2.5em;
+}
+
+.tools h2 {
+  margin-top: 0;
+}
+
+.tool-item {
+  margin-bottom: 1.5em;
+  padding: 1em;
+  background: #f8f9fa;
+  border-left: 3px solid #1a5276;
+  border-radius: 2px;
+}
+
+.tool-item strong {
+  display: block;
+  margin-bottom: 0.4em;
+  color: #111;
+}
+
+.tool-item strong a {
+  color: #1a5276;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.tool-item strong a:hover {
+  border-bottom-color: #1a5276;
+}
+
+.tool-item p {
+  margin: 0;
+  font-size: 0.95em;
+  color: #555;
+  line-height: 1.6;
 }
 
 .links {
@@ -96,7 +136,8 @@ h2:first-child {
   margin-top: 0;
 }
 
-.edu-list, .pub-list {
+.edu-list,
+.pub-list {
   font-size: 0.95em;
   color: #444;
 }

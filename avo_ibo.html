@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,8 +8,14 @@
   <link rel="icon" type="image/svg+xml" href="/images/avatar.svg">
   <link rel="stylesheet" href="style.css">
   <style>
-    .project-page h2 { margin-top: 2em; }
-    .project-page h2:first-of-type { margin-top: 0; }
+    .project-page h2 {
+      margin-top: 2em;
+    }
+
+    .project-page h2:first-of-type {
+      margin-top: 0;
+    }
+
     .project-page h3 {
       font-size: 1.1em;
       font-weight: 600;
@@ -16,16 +23,21 @@
       margin-top: 1.5em;
       margin-bottom: 0.5em;
     }
-    .project-page p, .project-page ul {
+
+    .project-page p,
+    .project-page ul {
       color: #444;
       margin-bottom: 1em;
     }
+
     .project-page ul {
       padding-left: 1.5em;
     }
+
     .project-page ul li {
       margin-bottom: 0.4em;
     }
+
     .project-page pre {
       background: #f5f5f5;
       border: 1px solid #e0e0e0;
@@ -36,15 +48,18 @@
       margin-bottom: 1em;
       line-height: 1.5;
     }
+
     .project-page code {
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 0.9em;
     }
+
     .project-page p code {
       background: #f0f0f0;
       padding: 1px 4px;
       border-radius: 3px;
     }
+
     .project-page table {
       border-collapse: collapse;
       font-size: 0.9em;
@@ -52,19 +67,24 @@
       width: 100%;
       color: #444;
     }
-    .project-page table th, .project-page table td {
+
+    .project-page table th,
+    .project-page table td {
       border: 1px solid #ddd;
       padding: 6px 10px;
       text-align: left;
     }
+
     .project-page table th {
       background: #f5f5f5;
       font-weight: 600;
       color: #222;
     }
+
     .project-page table td {
       vertical-align: top;
     }
+
     .project-page blockquote {
       border-left: 3px solid #ccc;
       margin: 1em 0;
@@ -72,24 +92,67 @@
       color: #666;
       font-style: italic;
     }
+
     .project-page .figure {
       margin: 1.5em 0;
       text-align: center;
     }
+
     .project-page .figure img {
       max-width: 100%;
       height: auto;
       border: 1px solid #ddd;
       border-radius: 4px;
     }
+
     .project-page .figure figcaption {
       font-size: 0.85em;
       color: #666;
       margin-top: 0.5em;
       font-style: italic;
     }
+
+    .project-page .callout {
+      border: 1px solid #d9e3f0;
+      background: linear-gradient(180deg, #f8fbff 0%, #f4f8fd 100%);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin: 1.25em 0;
+      color: #2e3a47;
+    }
+
+    .project-page .callout strong {
+      color: #1f2b37;
+    }
+
+    .project-page .jump-link {
+      font-size: 0.95em;
+      margin-top: -0.25em;
+      margin-bottom: 1.25em;
+    }
+
+    .project-page .workflow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin: 1em 0 1.2em;
+    }
+
+    .project-page .workflow-step {
+      border: 1px solid #dcdcdc;
+      border-radius: 6px;
+      padding: 10px 12px;
+      background: #fafafa;
+    }
+
+    .project-page .workflow-step .step-title {
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 0.25em;
+    }
   </style>
 </head>
+
 <body>
   <a href="/" class="back-link">&larr; Home</a>
 
@@ -100,55 +163,80 @@
       &middot; BSD 3-Clause &middot; 2025–2026
     </p>
 
+    <p class="jump-link"><a href="#technical">Jump to technical details</a></p>
+
     <p>
-      Here is the thing about Intrinsic Bond Orbitals (IBOs): they give you a
-      beautifully clear picture of chemical bonding — &sigma; bonds, &pi; bonds,
-      lone pairs, and core orbitals — straight from quantum chemistry. You can
-      <i>see</i> the bent bonds in cyclopropane, the &pi; cloud in ethene, the
-      lone pairs on water. They are exactly the kind of orbital you drew on a
-      chalkboard as a student, except these are real, computed from
-      first principles.
+      <b>avo_ibo</b> brings Intrinsic Bond Orbitals directly into
+      <a href="https://avogadro.cc">Avogadro&nbsp;2</a>. It uses
+      <a href="https://psicode.org">Psi4</a> for SCF and wavefunction
+      generation, then performs post-SCF orbital construction inside the plugin
+      as a complete implementation of the IAO/2014 algorithm.
     </p>
 
     <p>
-      But up until now, getting them has been a hassle. IboView is the reference
-      implementation, but it is a standalone tool with its own workflow — not
-      something you can just drop into your existing molecular editor. You would
-      run a calculation, export the results, open them somewhere else, coax the
-      isosurfaces to render&hellip; it was doable, but it was not <i>easy</i>.
+      The result is a streamlined workflow: compute, localize, and inspect
+      orbitals without switching tools. Occupied IBOs, valence-virtual IBOs,
+      and analysis outputs are generated in one in-process pipeline and shown
+      directly in Avogadro&rsquo;s Molecular Orbitals panel.
     </p>
 
-    <p>
-      <b>avo_ibo</b> changes that. It is an
-      <a href="https://avogadro.cc">Avogadro&nbsp;2</a> plugin (with a
-      standalone CLI) that runs the full IBO pipeline using
-      <a href="https://psicode.org">Psi4</a> as the quantum chemistry backend.
-      You install it, open a molecule, click <b>Extensions &rarr; Intrinsic
-      Bond Orbitals &rarr; Compute IBOs</b>, and your orbitals appear in the
-      Molecular Orbitals panel — ready to click, rotate, and explore. No file
-      juggling. No separate viewer. Just compute and visualize.
-    </p>
+    <div class="callout">
+      <strong>Why this matters:</strong> IBO generation is integrated into the
+      same editor used to build and interpret structures, reducing tool
+      switching and improving reproducibility for teaching and research.
+    </div>
+
+    <h2>Workflow in 3 Steps</h2>
+    <div class="workflow">
+      <div class="workflow-step">
+        <div class="step-title">1. Run Electronic Structure</div>
+        Compute the wavefunction with Psi4 (HF or DFT).
+      </div>
+      <div class="workflow-step">
+        <div class="step-title">2. Build and Localize IBOs</div>
+        The plugin performs IAO construction, PM localization, degeneracy
+        resolution, and valence-virtual generation.
+      </div>
+      <div class="workflow-step">
+        <div class="step-title">3. Inspect in Avogadro</div>
+        Orbitals and analysis data appear in the Molecular Orbitals panel for
+        interactive interpretation.
+      </div>
+    </div>
 
     <h2>What You Can Do With It</h2>
     <ul>
-      <li>Compute IBOs for any neutral closed-shell molecule using HF or DFT &mdash; water, methane, ethene, transition states, whatever you are working on</li>
-      <li>Browse your orbitals in Avogadro&rsquo;s Molecular Orbitals panel &mdash; double-click any orbital to toggle its isosurface, rotate the molecule, inspect the shape</li>
-      <li>View both occupied IBOs (&sigma; bonds, &pi; bonds, lone pairs, core orbitals) and valence-virtual IBOs (&sigma;* and &pi;* anti-bonding orbitals)</li>
-      <li>Get a full analysis table with occupancy, energy, bond type, atomic composition, and s/p/d hybridization for every orbital</li>
-      <li>Run from the command line with <code>python -m avogadro_ibo molecule.xyz</code> for headless computation</li>
-      <li>Customize the basis set and method (cc-pVDZ, cc-pVTZ, B3LYP, etc.) through the options</li>
+      <li>Compute IBOs for neutral closed-shell systems using HF or DFT, from small molecules to representative
+        transition states</li>
+      <li>Inspect orbital isosurfaces in Avogadro with direct toggling and interactive rotation</li>
+      <li>Analyze occupied IBOs (&sigma;, &pi;, lone pairs, core) and valence-virtual IBOs (&sigma;*, &pi;*) in one
+        workflow</li>
+      <li>Use the analysis table for assignment and interpretation (occupancy, energy, bond type, composition,
+        hybridization)</li>
+      <li>Run headless workflows with <code>python -m avogadro_ibo molecule.xyz</code> for scripts and batch jobs</li>
+      <li>Adjust basis sets and methods (for example, cc-pVDZ, cc-pVTZ, and B3LYP) through plugin options</li>
+    </ul>
+
+    <h2>Use Cases</h2>
+    <ul>
+      <li>Teach bonding models with computed orbitals rather than schematic sketches</li>
+      <li>Prepare publication figures that connect orbital shape to mechanistic interpretation</li>
+      <li>Perform rapid orbital inspection during exploratory computational workflows</li>
     </ul>
 
     <h2>Orbital Visualizations</h2>
 
     <figure class="figure">
       <img src="/images/cyclopropane.png" alt="Cyclopropane C–C σ bond IBO" width="528" height="476" loading="lazy">
-      <figcaption>Cyclopropane C–C &sigma; bond &mdash; notice the bent-bond character. The electron density does not lie along the internuclear axis; it curves outward, exactly the picture that explains this molecule&rsquo;s unusual reactivity.</figcaption>
+      <figcaption>Cyclopropane C–C &sigma; bond showing bent-bond character. Electron density is displaced from the
+        internuclear axis and curves outward, consistent with this molecule&rsquo;s unusual reactivity.</figcaption>
     </figure>
 
     <figure class="figure">
-      <img src="/images/methylbromide_LUMO.png" alt="Methyl bromide C–Br σ* LUMO IBO" width="584" height="381" loading="lazy">
-      <figcaption>Methyl bromide C–Br &sigma;* LUMO &mdash; the anti-bonding orbital you would invoke in an S<sub>N</sub>2 discussion, now visible as a real computed orbital with its characteristic nodal plane between carbon and bromine.</figcaption>
+      <img src="/images/methylbromide_LUMO.png" alt="Methyl bromide C–Br σ* LUMO IBO" width="584" height="381"
+        loading="lazy">
+      <figcaption>Methyl bromide C–Br &sigma;* LUMO, the anti-bonding orbital central to S<sub>N</sub>2 discussion,
+        shown as a computed orbital with the expected nodal plane between carbon and bromine.</figcaption>
     </figure>
 
     <h2>Quick Start</h2>
@@ -163,7 +251,7 @@ pixi run python -m pip install -e .</pre>
     <p>
       Reads an XYZ file, runs the full IBO pipeline, and writes results to
       <code>calcs/last/</code> (ibo.molden, canonical.molden, ibos.txt, psi4.log).
-      Neutral singlet only.
+      Supports neutral singlets only.
     </p>
 
     <h3>Avogadro&nbsp;2 plugin</h3>
@@ -175,35 +263,32 @@ pixi run python -m pip install -e .</pre>
   -Target "C:\path\to\avo_ibo"</pre>
     <p>
       Then in Avogadro: <b>Extensions &rarr; Intrinsic Bond Orbitals &rarr; Compute IBOs</b>.
-      The computed IBOs appear in the <b>Molecular Orbitals</b> panel where you
-      can double-click any orbital to toggle its isosurface.
+      Computed IBOs appear in the <b>Molecular Orbitals</b> panel, where
+      double-click toggles orbital isosurfaces.
     </p>
 
     <h3>Tests</h3>
     <pre>pixi run test</pre>
     <p>
-      7 CLI integration tests against water, methane, ethene, and ammonia &mdash;
-      validates IAO counts, Molden structure, occupancy partitioning, and
+      Seven CLI integration tests against water, methane, ethene, and ammonia
+      validate IAO counts, Molden structure, occupancy partitioning, and
       per-molecule orbital patterns.
     </p>
 
     <h2>How It Works (At a Glance)</h2>
     <p>
-      You give it a molecule. It spins up Psi4 for a quantum chemistry
-      calculation, builds the Intrinsic Atomic Orbital basis that exactly spans
-      your occupied molecular orbitals, then localizes them with the
-      Pipek&ndash;Mezey procedure. The result is a set of orbitals that look
-      like what a chemist would draw: bonds localized between atoms, lone pairs
-      on single atoms, core orbitals deep in the electron cloud. Virtual
-      orbitals (&sigma;*, &pi;*) are constructed via an SVD projection and
-      localized the same way.
+      Starting from an input geometry, the plugin requests a wavefunction from
+      Psi4, then performs all post-SCF orbital construction internally.
+      The implementation includes IAO basis construction, Pipek&ndash;Mezey
+      localization, on-atom degeneracy resolution, and SVD-based
+      valence-virtual IBO generation.
     </p>
 
     <p>
-      Everything runs in a single Python process &mdash; no subprocess calls,
-      no intermediate files to manage. The plugin talks to Avogadro over stdin
-      and stdout using JSON, and a debug log captures every input and output for
-      troubleshooting.
+      This yields chemically intuitive orbitals that are immediately available
+      for visualization and assignment. The full pipeline runs in a single
+      Python process with JSON-based Avogadro communication and detailed debug
+      logging for reproducibility and troubleshooting.
     </p>
 
     <p>
@@ -215,10 +300,11 @@ pixi run python -m pip install -e .</pre>
     <h2 id="technical">For the Professionals</h2>
 
     <p>
-      The sections below cover the technical details: the IAO/2014 algorithm,
-      Pipek&ndash;Mezey localization with on-atom degeneracy resolution, the
+      The sections below describe the plugin&rsquo;s complete IAO/2014
+      implementation: manual post-Psi4 IAO construction,
+      Pipek&ndash;Mezey localization with on-atom degeneracy resolution,
       SVD-based valence-virtual construction, tested molecules, the
-      donor&ndash;acceptor analysis limitation, and the build architecture.
+      donor&ndash;acceptor analysis limitation, and build architecture.
     </p>
 
     <h3>Pipeline Overview</h3>
@@ -236,12 +322,13 @@ Valence-virtual: SVD(S_IbVir) &rarr; U_val &rarr; _localize_ibos(U_val)
 Combine, sort by energy &rarr; Molden output &rarr; analysis table</pre>
 
     <p>
-      The <b>IAO construction</b> follows Appendix&nbsp;C of the Knizia 2013
-      paper, matching IboView&rsquo;s <code>MakeIaoBasisNew</code>. A minimal
-      basis (STO-3G) is projected into the full AO space, and the resulting
-      Intrinsic Atomic Orbitals are symmetrically orthogonalized. These IAOs
-      exactly span the occupied space &mdash; every occupied MO can be expressed
-      as a linear combination of IAOs with zero loss.
+      The <b>IAO construction</b> is implemented directly in the plugin and
+      follows Appendix&nbsp;C of the Knizia 2013 paper, matching IboView&rsquo;s
+      <code>MakeIaoBasisNew</code>. A minimal basis (STO-3G) is projected into
+      the full AO space, and the resulting Intrinsic Atomic Orbitals are
+      symmetrically orthogonalized. These IAOs exactly span the occupied space
+      &mdash; every occupied MO can be expressed as a linear combination of IAOs
+      with zero loss.
     </p>
 
     <p>
@@ -266,30 +353,41 @@ Combine, sort by energy &rarr; Molden output &rarr; analysis table</pre>
 
     <h3>Tested Molecules (HF/cc-pVDZ)</h3>
     <table>
-      <tr><th>Molecule</th><th><i>n</i><sub>min</sub></th><th>Occupied IBOs</th><th>Virtual IBOs</th></tr>
       <tr>
-        <td>Water</td><td>7</td>
+        <th>Molecule</th>
+        <th><i>n</i><sub>min</sub></th>
+        <th>Occupied IBOs</th>
+        <th>Virtual IBOs</th>
+      </tr>
+      <tr>
+        <td>Water</td>
+        <td>7</td>
         <td>O(Core), O&nbsp;2s (s-rich LP), O&nbsp;2p (pure LP), 2&times; O&ndash;H &sigma;</td>
         <td>2&times; O&ndash;H &sigma;*</td>
       </tr>
       <tr>
-        <td>Methane</td><td>9</td>
+        <td>Methane</td>
+        <td>9</td>
         <td>C(Core), 4&times; C&ndash;H &sigma; (sp<sup>3</sup>)</td>
         <td>4&times; C&ndash;H &sigma;*</td>
       </tr>
       <tr>
-        <td>Ethene</td><td>14</td>
+        <td>Ethene</td>
+        <td>14</td>
         <td>2&times; C(Core), 4&times; C&ndash;H &sigma;, C&ndash;C &sigma;, C&ndash;C &pi;</td>
         <td>C&ndash;C &pi;*, 4&times; C&ndash;H &sigma;*, C&ndash;C &sigma;*</td>
       </tr>
       <tr>
-        <td>Ammonia</td><td>8</td>
+        <td>Ammonia</td>
+        <td>8</td>
         <td>N(Core), 3&times; N&ndash;H &sigma;, N(LP) sp<sup>3</sup></td>
         <td>3&times; N&ndash;H &sigma;*</td>
       </tr>
       <tr>
-        <td>Formaldehyde</td><td>12</td>
-        <td>O(Core), C(Core), C&ndash;O &sigma;, 2&times; C&ndash;H &sigma;, C&ndash;O &pi;, O(LP s-rich), O(LP pure p)</td>
+        <td>Formaldehyde</td>
+        <td>12</td>
+        <td>O(Core), C(Core), C&ndash;O &sigma;, 2&times; C&ndash;H &sigma;, C&ndash;O &pi;, O(LP s-rich), O(LP pure p)
+        </td>
         <td>C&ndash;O &pi;*, 2&times; C&ndash;H &sigma;*, C&ndash;O &sigma;*</td>
       </tr>
     </table>
@@ -297,13 +395,15 @@ Combine, sort by energy &rarr; Molden output &rarr; analysis table</pre>
     <h3>A Note on Donor&ndash;Acceptor Analysis</h3>
     <p>
       Unlike NBOs, the IAO basis exactly spans the occupied space &mdash;
-      it is a <b>lossless</b> representation of the occupied MOs.  This
+      it is a <b>lossless</b> representation of the occupied MOs. This
       exactness is a mathematical identity (proved in the
-      <a href="https://github.com/exergonic/avo_ibo/blob/master/mathematics.md#9-why-occ-vir-delocalization-analysis-is-impossible-in-the-iao-basis">mathematics document</a>),
-      not a numerical approximation.  As a consequence, the occupied&ndash;virtual
+      <a
+        href="https://github.com/exergonic/avo_ibo/blob/master/mathematics.md#9-why-occ-vir-delocalization-analysis-is-impossible-in-the-iao-basis">mathematics
+        document</a>),
+      not a numerical approximation. As a consequence, the occupied&ndash;virtual
       off-diagonal block of the Fock matrix in the IAO basis is identically
       zero, making NBO-style E(2) donor&ndash;acceptor analysis structurally
-      impossible.  This is a <b>feature of the IBO design</b>: IAOs give
+      impossible. This is a <b>feature of the IBO design</b>: IAOs give
       clean, chemically intuitive orbital shapes for visualization, but they
       cannot report hyperconjugation energies.
     </p>
@@ -311,21 +411,23 @@ Combine, sort by energy &rarr; Molden output &rarr; analysis table</pre>
     <h3>Architecture</h3>
     <p>
       The plugin is structured as a standard Avogadro&nbsp;2 Pixi Python script
-      plugin.  It uses <code>uv_build</code> (not hatchling &mdash; the bundled
-      pixi v0.66.0 does not support hatchling) and produces a lock file v6 for
-      compatibility with Avogadro&rsquo;s pixi.  All computation runs
+      plugin. It uses <code>uv_build</code> and produces a lock file v6 for
+      compatibility with Avogadro&rsquo;s pixi. All computation runs
       <b>in-process</b> (single Python process, no subprocess or file-based IPC
-      to Psi4), with careful logging redirect to avoid stderr contamination of
-      the JSON output that Avogadro parses.
+      to Psi4). Psi4 is used for SCF/wavefunction generation, while the
+      downstream IAO/2014 construction and localization stack is implemented
+      manually in the plugin, with careful logging redirect to avoid stderr
+      contamination of the JSON output that Avogadro parses.
     </p>
 
     <p>
       For implementers, a detailed tutorial on building Avogadro&nbsp;2 Pixi
       plugins is in
       <a href="https://github.com/exergonic/avo_ibo/blob/master/tutorial.md"><code>tutorial.md</code></a>
-      (758 lines), covering the architecture, algorithm walkthrough, and every
-      gotcha encountered during development.
+      (758 lines), covering architecture, algorithm walkthrough, and practical
+      development pitfalls.
     </p>
   </div>
 </body>
+
 </html>
