@@ -246,16 +246,18 @@
             return numE;
          }
 
-         function displayInfo(form,field) {
-         // find field index
-            for (var i=0; i<=nfields; i++) {
-            if ( form.elements[i].name == field ) {
-            idx = i ;
-            break;
-            }
-         }
-         // find number of characters in input string for significant figure functions
-            nchars = form.elements[idx].value.length + 1;
+          function displayInfo(form,field) {
+          // find field index
+             for (var i=0; i<=nfields; i++) {
+             if ( form.elements[i].name == field ) {
+             idx = i ;
+             break;
+             }
+          }
+          // bail if the field is empty
+             if (form.elements[idx].value === "") return;
+          // find number of characters in input string for significant figure functions
+             nchars = form.elements[idx].value.length + 1;
 
          // calculate the base energy in Hartrees
          if ( idx != 7) {
@@ -327,31 +329,31 @@
     <div class="input-grid">
       <form name="Hartree">
         <div class="input-row">
-          <input type="text" name="H" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <input type="text" name="H" value="" oninput="displayInfo(this.form,this.name);" placeholder="0">
           <span class="label">Hartrees</span>
         </div>
         <div class="input-row">
-          <input type="text" name="eV" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <input type="text" name="eV" value="" oninput="displayInfo(this.form,this.name);" placeholder="0">
           <span class="label">eV</span>
         </div>
         <div class="input-row">
-          <input type="text" name="kJ/mol" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <input type="text" name="kJ/mol" value="" oninput="displayInfo(this.form,this.name);" placeholder="0">
           <span class="label">kJ/mol</span>
         </div>
         <div class="input-row">
-          <input type="text" name="kcal/mol" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <input type="text" name="kcal/mol" value="" oninput="displayInfo(this.form,this.name);" placeholder="0">
           <span class="label">kcal/mol</span>
         </div>
         <div class="input-row">
-          <input type="text" name="cm-1" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <input type="text" name="cm-1" value="" oninput="displayInfo(this.form,this.name);" placeholder="0">
           <span class="label">cm<sup>-1</sup></span>
         </div>
         <div class="input-row">
-          <input type="text" name="V" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <input type="text" name="V" value="" oninput="displayInfo(this.form,this.name);" placeholder="0">
           <span class="label">V (1 e<sup>-</sup> transfer)</span>
         </div>
         <div class="input-row">
-          <input type="text" name="K" value="0" oninput="displayInfo(this.form,this.name);" placeholder="0">
+          <input type="text" name="K" value="" oninput="displayInfo(this.form,this.name);" placeholder="0">
           <span class="label">K (equivalent temperature)</span>
         </div>
         <div class="input-row">
@@ -395,7 +397,7 @@
 
         <div class="voltage-row">
           <span>Electrochemical voltage:</span>
-          <input type="text" id="boltz-V" value="0" readonly>
+          <input type="text" id="boltz-V" value="" readonly>
           <span>V</span>
         </div>
       </form>
